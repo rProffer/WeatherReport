@@ -8,7 +8,11 @@ def getWeather(key):
     weatherReport=requests.get("https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&appid={key}") #oof it wants money for this
     #format weather report
     print(weatherReport.json())
-    hourlyWeather=weatherReport[hourly[weather[main]]]
+    try:
+        hourlyWeather=weatherReport[hourly[weather[main]]]
+    except KeyError:
+        print("The necessary key does not exist")
+        sys.exit()
     weatherReport="In an hour, it will be " + hourlyWeather
     return weatherReport
 
@@ -18,6 +22,8 @@ def main(key):
     requests.post('https://ntfy.sh/xweatgery', weatherReport)
 
 if __name__ == "__main__":
-    main()
+    main(key)
+
+
 
 
